@@ -1,4 +1,4 @@
-const { useEffect, useState } = React;
+const { useEffect, useState } = wp.element;
 const { CheckboxControl, ExternalLink, Flex, FlexItem, TextControl } = wp.components;
 import { __ } from '@wordpress/i18n';
 

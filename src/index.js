@@ -1,8 +1,7 @@
-import { createRoot } from 'react-dom';
+const { render } = wp.element;
 import App from './components/App'
 
 window.addEventListener( 'load', function () {
-    const root = createRoot(document.getElementById('simple-link-checker-app'));
-
-    root.render(<App />);
+    console.log(document.getElementById('simple-link-checker-app'))
+    render(<App/>, document.getElementById('simple-link-checker-app'));
 }, false );

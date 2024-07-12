@@ -27,7 +27,7 @@ class Enqueues
 		wp_register_script(
 			$this->plugin_name,
 			SIMPLELINKCHECKER_URL . 'build/index.js',
-			$asset_file['dependencies'],
+			array('wp-element', 'wp-api-fetch', 'wp-components'),
 			$asset_file['version']
 		);
 		wp_enqueue_script($this->plugin_name);
