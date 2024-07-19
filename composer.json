@@ -27,7 +27,8 @@
 	"name": "sirvelia/simple-link-checker",
 	"require": {
 		"jenssegers/blade": "1.4.0",
-		"php": "\u003e=7.4"
+		"php": "\u003e=7.4",
+		"joanrodas/plubo-routes": "^0.6.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^9.6.13",

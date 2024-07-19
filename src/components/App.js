@@ -1,45 +1,72 @@
 const { useEffect, useState } = wp.element;
-const { CheckboxControl, ExternalLink, Flex, FlexItem, TextControl } = wp.components;
+const { Card, CardHeader, CardBody, CardFooter, CheckboxControl, ExternalLink, TextControl } = wp.components;
+
 import { __ } from '@wordpress/i18n';
 
-import { createBlock, store as blocksStore } from '@wordpress/blocks';
 import { dispatch, useDispatch, useSelect, select } from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
+
 
 export default function App() {
 
     const [links, setLinks] = useState([]);
 
-    const blocks = useSelect((select) =>
+    const [blocks, setBlocks] = useState([]);
+
+    const currentBlocks = useSelect(select => 
         select('core/block-editor').getBlocks()
     );
 
+    const blockCount = useSelect(select => 
+        select('core/block-editor').getBlockCount()
+    );
+
     useEffect(() => {
-        fetchLinks();
-    }, []);
+        const updatedBlocks = currentBlocks.map(block => ({
+            clientId: block.clientId,
+            name: block.name,
+            htmlContent: wp.blocks.getBlockContent(block)
+        }));
+        setBlocks(updatedBlocks);
+    }, [currentBlocks, blockCount]);
 
-    const fetchLinks = () => {
-        
-        const links = blocks ? blocks.flatMap(block => {
+    useEffect(() => {
+        fetchLinks()
+    }, [blocks])
 
+
+    const fetchLinks = async () => {
+        if (!blocks) return;
+    
+        const linkPromises = blocks.flatMap(block => {
             const blockId = block.clientId;
-            const content = block.originalContent || '';
-
+            const content = block.htmlContent || '';
+    
             const parser = new DOMParser();
             const doc = parser.parseFromString(content, 'text/html');
-
-            const links = Array.from(doc.querySelectorAll('a')).map((link, index) => ({
+    
+            return Array.from(doc.querySelectorAll('a')).map(async (link, index) => ({
                 id: `${blockId}/${index}`,
                 href: link.href,
                 innerText: link.innerText,
                 blockId: blockId,
-                targetBlank: link.attributes.target ? link.attributes.target.value : ''
+                targetBlank: link.attributes.target ? link.attributes.target.value : '',
+                status: await checkStatus(link.href)
             }));
+        });
+    
+        const resolvedLinks = await Promise.all(linkPromises.flat());
+        setLinks(resolvedLinks);
+    };
 
-            return links;
-
-        }) : [];
-
-        setLinks(links);
+    const checkStatus = (url) => {
+        return apiFetch({
+            url: `${simpleLinkChecker.apiUrl}simple-link-checker/v1/check-link?url=${encodeURIComponent(url)}`,
+            method: 'GET'
+        }).then(response => response.status)
+        .catch(error => {
+            return `Error: ${error.message}`;
+        });
     };
 
     const updateLink = (linkId, values) => {
@@ -96,30 +123,29 @@ export default function App() {
         <div>
             <h3>{__('Outbound Links', 'simple-link-checker')}</h3>
             {links.map((link) => (
-                <div key={link.id}>
+                <div key={link.id} style={{marginBottom: '1rem'}}>
 
-                    <ExternalLink href={link.href}>{link.innerText}</ExternalLink>
+                    <Card>
+                        <CardHeader>
+                            <div>
+                                <span>{__('Link')}: <ExternalLink href={link.href}>{link.innerText}</ExternalLink></span><br/>
+                                <span>{__('Status')} {link.status}</span>
+                            </div>
+                        </CardHeader>
 
-                    <Flex
-                        gap="3"
-                        justify="flex-start"
-                    >
-                        <FlexItem>
+                        <CardBody>
                             <TextControl
                                 value={link.href}
                                 onChange={(href) => updateLink(link.id, {href})}
                             />
-                        </FlexItem>
 
-                        <FlexItem>
                             <CheckboxControl
-                                label={__('Target _blank' , 'simple-link-checker')}
+                                label={__('Open in new tab')}
                                 checked={link.targetBlank === '_blank'}
                                 onChange={(blank) => updateLink(link.id, {blank})}
                             />
-                        </FlexItem>
-                        
-                    </Flex>
+                        </CardBody>
+                    </Card>
 
                 </div>
             ))}

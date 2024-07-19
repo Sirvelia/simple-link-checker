@@ -27,9 +27,14 @@ class Enqueues
 		wp_register_script(
 			$this->plugin_name,
 			SIMPLELINKCHECKER_URL . 'build/index.js',
-			array('wp-element', 'wp-api-fetch', 'wp-components'),
+			array('wp-element', 'wp-api-fetch', 'wp-components', 'wp-blocks'),
 			$asset_file['version']
 		);
+
+		wp_localize_script($this->plugin_name, 'simpleLinkChecker', array(
+			'apiUrl' => get_rest_url(),
+		));
+
 		wp_enqueue_script($this->plugin_name);
 
 	}
