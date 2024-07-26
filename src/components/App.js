@@ -6,6 +6,7 @@ import { __ } from '@wordpress/i18n';
 import { dispatch, useDispatch, useSelect, select } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
+import StatusDisplay from './StatusDisplay'
 
 export default function App() {
 
@@ -45,14 +46,24 @@ export default function App() {
             const parser = new DOMParser();
             const doc = parser.parseFromString(content, 'text/html');
     
-            return Array.from(doc.querySelectorAll('a')).map(async (link, index) => ({
-                id: `${blockId}/${index}`,
-                href: link.href,
-                innerText: link.innerText,
-                blockId: blockId,
-                targetBlank: link.attributes.target ? link.attributes.target.value : '',
-                status: await checkStatus(link.href)
-            }));
+            return Array.from(doc.querySelectorAll('a')).map(async (link, index) => {
+
+                const linkId = `${blockId}/${index}`;
+                const href = link.href;
+                
+                const existingLink = links.find(l => l.id === linkId);
+                const status = await getUpdatedStatus(existingLink?.href, href, existingLink?.status);
+
+                return {
+                    id: linkId,
+                    href: href,
+                    innerText: link.innerText,
+                    blockId: blockId,
+                    targetBlank: link.attributes.target ? link.attributes.target.value : '',
+                    noFollow: link.attributes.rel ? link.attributes.rel.value : '',
+                    status: status
+                };
+            });
         });
     
         const resolvedLinks = await Promise.all(linkPromises.flat());
@@ -69,18 +80,40 @@ export default function App() {
         });
     };
 
-    const updateLink = (linkId, values) => {
+    const scrollToBlock = (blockId) => {
+        setTimeout(() => {
+            const blockElement = document.querySelector(`[data-block="${blockId}"]`);
+            if (blockElement) {
+                blockElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                dispatch('core/block-editor').flashBlock(blockId)
+            }
+        }, 100);
+    };
+
+    const getUpdatedStatus = async (oldHref, newHref, oldStatus) => {
+        if (oldHref !== newHref) {
+            return await checkStatus(newHref);
+        }
+        return oldStatus;
+    };
+
+    const updateLink = async (linkId, values) => {
         const updatedLinks = [...links];
         const linkToUpdate = updatedLinks.find(link => link.id === linkId);
 
         if (linkToUpdate) {
 
             if (values.href) {
+                linkToUpdate.status = await getUpdatedStatus(linkToUpdate.href, values.href, linkToUpdate.status);
                 linkToUpdate.href = values.href;
             }
 
             if (values.blank !== undefined) {
                 linkToUpdate.targetBlank = !values.blank ? undefined : '_blank';
+            }
+
+            if (values.rel !== undefined) {
+                linkToUpdate.noFollow = !values.rel ? undefined : 'nofollow';
             }
 
             setLinks(updatedLinks);
@@ -107,6 +140,7 @@ export default function App() {
                 if (index === linkToUpdateIndex) {
                     link.setAttribute('href', linkToUpdate.href);
                     link.setAttribute('target', linkToUpdate.targetBlank)
+                    link.setAttribute('rel', linkToUpdate.noFollow)
                 }
 
             });
@@ -114,7 +148,7 @@ export default function App() {
             const updatedContent = doc.body.innerHTML;
 
             dispatch('core/block-editor').updateBlockAttributes(linkToUpdate.blockId, { content: updatedContent });
-
+            
             dispatch('core/block-editor').flashBlock(linkToUpdate.blockId)
         }
     };
@@ -128,8 +162,9 @@ export default function App() {
                     <Card>
                         <CardHeader>
                             <div>
-                                <span>{__('Link')}: <ExternalLink href={link.href}>{link.innerText}</ExternalLink></span><br/>
-                                <span>{__('Status')} {link.status}</span>
+                                <p><ExternalLink href={link.href}>{link.innerText}</ExternalLink></p>
+                                <p><StatusDisplay statusCode={link.status} /></p>
+                                <p><button onClick={() => scrollToBlock(link.blockId)}>{__('Scroll to Block', 'simple-link-checker')}</button></p>                                
                             </div>
                         </CardHeader>
 
@@ -143,6 +178,12 @@ export default function App() {
                                 label={__('Open in new tab')}
                                 checked={link.targetBlank === '_blank'}
                                 onChange={(blank) => updateLink(link.id, {blank})}
+                            />
+
+                            <CheckboxControl
+                                label={__('Mark as nofollow')}
+                                checked={link.noFollow === 'nofollow'}
+                                onChange={(rel) => updateLink(link.id, {rel})}
                             />
                         </CardBody>
                     </Card>

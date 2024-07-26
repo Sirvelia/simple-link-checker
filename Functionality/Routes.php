@@ -44,7 +44,9 @@ class Routes
         $response = wp_remote_head($url);
         
         if (is_wp_error($response)) {
-            return new WP_Error('link_check_failed', $response->get_error_message(), array('status' => 500));
+            array(
+                'status' => 500
+            );
         }
         
         return array(
