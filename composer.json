@@ -8,9 +8,6 @@
 		}
 	],
 	"autoload": {
-		"files": [
-			"Utils/plubo.php"
-		],
 		"psr-4": {
 			"SimpleLinkChecker\\": ""
 		}
