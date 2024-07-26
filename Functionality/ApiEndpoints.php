@@ -4,7 +4,7 @@ namespace SimpleLinkChecker\Functionality;
 use PluboRoutes\Endpoint\GetEndpoint;
 
 
-class Routes
+class ApiEndpoints
 {
     protected $plugin_name;
 	protected $plugin_version;
@@ -35,6 +35,15 @@ class Routes
             }
         );
 
+        $routes[] = new GetEndpoint(
+            'simple-link-checker/v1',
+            'inbound-links',
+            [$this, 'inbound_links'],
+            function() {
+                return current_user_can('edit_posts');
+            }
+        );
+
 		return $routes;
 	}
 
@@ -52,6 +61,30 @@ class Routes
         return array(
             'status' => wp_remote_retrieve_response_code($response)
         );
+    }
+
+    public function inbound_links($request)
+    {
+        $post_id = $request->get_param('post_id');
+
+        if (!$post_id) {
+            return false;
+        }
+
+        global $wpdb;
+
+        $inbound_links = $wpdb->get_results($wpdb->prepare(
+            "SELECT DISTINCT ID, post_title, post_type
+            FROM {$wpdb->posts}
+            WHERE post_content LIKE %s
+            AND post_status = 'publish'
+            AND ID != %d",
+            '%' . $wpdb->esc_like(get_permalink($post_id)) . '%',
+            $post_id
+        ));
+
+        return $inbound_links;
+
     }
 
 }

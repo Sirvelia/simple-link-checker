@@ -28,6 +28,8 @@ class MetaBoxes
 
 	public function render()
 	{
-		echo '<div id="simple-link-checker-app"></div>';
+		global $post;
+		$post_id = esc_attr($post->ID);
+		echo '<div id="simple-link-checker-app" data-post-id="'.$post_id.'"></div>';
 	}
 }
