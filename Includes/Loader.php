@@ -20,7 +20,7 @@ class Loader
                 try {
                     new $class_name(SIMPLELINKCHECKER_NAME, SIMPLELINKCHECKER_VERSION);
                 } catch (\Throwable $e) {
-                    pb_log($e);
+                    error_log(print_r($e, true));
                     continue;
                 }
             }
@@ -34,7 +34,7 @@ class Loader
                     try {
                         new $class_name(SIMPLELINKCHECKER_NAME, SIMPLELINKCHECKER_VERSION);
                     } catch (\Throwable $e) {
-                        pb_log($e);
+                        error_log(print_r($e, true));
                         continue;
                     }
                 }

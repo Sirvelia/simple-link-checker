@@ -2,17 +2,15 @@
 
 /**
  * @wordpress-plugin
- * Plugin Name:       SimpleLinkChecker
- * Plugin URI:        https://sirvelia.com/
+ * Plugin Name:       Simple Link Checker
  * Description:       A WordPress plugin made with PLUBO.
  * Version:           1.0.0
- * Author:            Sirvelia
+ * Author:            Amadeu Arderiu
  * Author URI:        https://sirvelia.com/
  * License:           GPL-3.0+
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       simple-link-checker
  * Domain Path:       /languages
- * Update URI:        false
  * Requires Plugins:
  */
 
