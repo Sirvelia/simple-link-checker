@@ -1,5 +1,5 @@
 const { useEffect, useState } = wp.element;
-const { Card, CardHeader, CardBody, CardFooter, CheckboxControl, ExternalLink, TextControl } = wp.components;
+const { Button, Card, CardHeader, CardBody, CardFooter, CheckboxControl, ExternalLink, Flex, FlexBlock, FlexItem, TextControl } = wp.components;
 
 import { __ } from '@wordpress/i18n';
 
@@ -50,6 +50,8 @@ export default function InboundLinks({postId}) {
 
                 const linkId = `${blockId}/${index}`;
                 const href = link.href;
+
+                const isImageLink = link.querySelector('img') !== null;
                 
                 const existingLink = links.find(l => l.id === linkId);
                 const status = await getUpdatedStatus(existingLink?.href, href, existingLink?.status);
@@ -61,7 +63,8 @@ export default function InboundLinks({postId}) {
                     blockId: blockId,
                     targetBlank: link.attributes.target ? link.attributes.target.value : '',
                     noFollow: link.attributes.rel ? link.attributes.rel.value : '',
-                    status: status
+                    status: status,
+                    isImageLink: isImageLink,
                 };
             });
         });
@@ -161,17 +164,29 @@ export default function InboundLinks({postId}) {
 
                     <Card>
                         <CardHeader>
-                            <div>
-                                <p><ExternalLink href={link.href}>{link.innerText}</ExternalLink></p>
-                                <p><StatusDisplay statusCode={link.status} /></p>
-                                <p><button onClick={() => scrollToBlock(link.blockId)}>{__('Scroll to Block', 'simple-link-checker')}</button></p>                                
-                            </div>
+                            <Flex>
+                                <FlexItem>
+                                    <StatusDisplay statusCode={link.status} />
+                                </FlexItem>
+                                <FlexBlock>
+                                    <ExternalLink href={link.href}>
+                                        {link.isImageLink ? __('Image: ', 'simple-link-checker') : ''}
+                                        {link.innerText || __('(No text)', 'simple-link-checker')}
+                                    </ExternalLink>
+                                </FlexBlock>
+                                <FlexItem>
+                                    <Button variant="primary" onClick={() => scrollToBlock(link.blockId)}>
+                                        {__('Scroll to Block', 'simple-link-checker')}
+                                    </Button>
+                                </FlexItem>                                
+                            </Flex>
                         </CardHeader>
 
                         <CardBody>
                             <TextControl
                                 value={link.href}
                                 onChange={(href) => updateLink(link.id, {href})}
+                                label={__('Edit Link')}
                             />
 
                             <CheckboxControl
