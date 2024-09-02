@@ -13,6 +13,8 @@ Manage inbound and outbound post links.
 
 This plugin adds a new metabox to the post editing screen, allowing you to quickly view and manage inbound and outbound links for the post. You can easily see the HTTP status of each link, edit their values, and navigate directly to their locations within the content. This tool helps you ensure that your links are working properly and are up to date, improving the overall quality and SEO performance of your site.
 
+After activating the plugin, when editing a post, there will be a new metabox. There, there will be inbound and outbound links listed. Each link can be editted, and its http status is displayed in order to quickly check every link associated with a single post.
+
 == Frequently Asked Questions ==
 
 = Is it compatible with Gutenberg? =
