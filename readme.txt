@@ -3,6 +3,23 @@ Contributors: amadeuarderiu,sirvelia
 Requires at least: 6.5
 Tested up to: 6.6
 Requires PHP: 8.0
-Stable tag: trunk
+Stable tag: 1.0.0
 License: GPL-3.0+
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
+
+Manage inbound and outbound post links.
+
+== Description ==
+
+This plugin adds a new metabox to the post editing screen, allowing you to quickly view and manage inbound and outbound links for the post. You can easily see the HTTP status of each link, edit their values, and navigate directly to their locations within the content. This tool helps you ensure that your links are working properly and are up to date, improving the overall quality and SEO performance of your site.
+
+== Frequently Asked Questions ==
+
+= Is it compatible with Gutenberg? =
+
+Yes, this plugin is actually designed to work best with Gutenberg editor.
+
+== Changelog ==
+
+= 1.0.0 =
+* Initial version
