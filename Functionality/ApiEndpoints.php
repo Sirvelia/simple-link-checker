@@ -53,7 +53,7 @@ class ApiEndpoints
         $response = wp_remote_head($url);
         
         if (is_wp_error($response)) {
-            array(
+            return array(
                 'status' => 500
             );
         }
