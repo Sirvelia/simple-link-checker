@@ -1,9 +1,9 @@
 {
 	"authors": [
 		{
-			"email": "joan@sirvelia.com",
+			"email": "amadeu@sirvelia.com",
 			"homepage": "https://sirvelia.com",
-			"name": "Joan Rodas Cusidó",
+			"name": "Amadeu Arderiu",
 			"role": "Developer"
 		}
 	],
@@ -23,7 +23,6 @@
 	"license": "GPL-3.0+",
 	"name": "sirvelia/simple-link-checker",
 	"require": {
-		"jenssegers/blade": "1.4.0",
 		"php": "\u003e=7.4",
 		"joanrodas/plubo-routes": "^0.6.1"
 	},
