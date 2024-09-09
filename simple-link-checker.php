@@ -3,9 +3,9 @@
 /**
  * @wordpress-plugin
  * Plugin Name:       Simple Link Checker
- * Description:       A WordPress plugin made with PLUBO.
- * Version:           1.0.0
- * Author:            Amadeu Arderiu
+ * Description:       Manage inbound and outbound post links.
+ * Version:           1.0.1
+ * Author:            Sirvelia
  * Author URI:        https://sirvelia.com/
  * License:           GPL-3.0+
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
@@ -20,7 +20,7 @@ if (!defined('WPINC')) {
 
 // PLUGIN CONSTANTS
 define('SIMPLELINKCHECKER_NAME', 'simple-link-checker');
-define('SIMPLELINKCHECKER_VERSION', '1.0.0');
+define('SIMPLELINKCHECKER_VERSION', '1.0.1');
 define('SIMPLELINKCHECKER_PATH', plugin_dir_path(__FILE__));
 define('SIMPLELINKCHECKER_BASENAME', plugin_basename(__FILE__));
 define('SIMPLELINKCHECKER_URL', plugin_dir_url(__FILE__));
