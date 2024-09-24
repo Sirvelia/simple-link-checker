@@ -56,6 +56,8 @@ export default function InboundLinks({postId}) {
                 const existingLink = links.find(l => l.id === linkId);
                 const status = await getUpdatedStatus(existingLink?.href, href, existingLink?.status);
 
+                console.log(link.attributes)
+
                 return {
                     id: linkId,
                     href: href,
@@ -197,7 +199,7 @@ export default function InboundLinks({postId}) {
 
                             <CheckboxControl
                                 label={__('Mark as nofollow')}
-                                checked={link.noFollow === 'nofollow'}
+                                checked={link.noFollow.includes('nofollow')}
                                 onChange={(rel) => updateLink(link.id, {rel})}
                             />
                         </CardBody>
