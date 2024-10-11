@@ -1,5 +1,5 @@
 const { useEffect, useState } = wp.element;
-const { Button, Card, CardHeader, CardBody, CardFooter, CheckboxControl, ExternalLink, Flex, FlexBlock, FlexItem, TextControl } = wp.components;
+const { Button, Card, CardHeader, CardBody, CardFooter, CheckboxControl, ExternalLink, Flex, FlexBlock, FlexItem,  TextControl } = wp.components;
 
 import { __ } from '@wordpress/i18n';
 
@@ -7,8 +7,9 @@ import { dispatch, useDispatch, useSelect, select } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
 import StatusDisplay from './StatusDisplay'
+import OutboundLink from './OutboundLink';
 
-export default function InboundLinks({postId}) {
+export default function OutboundLinks({postId}) {
 
     const [links, setLinks] = useState([]);
 
@@ -34,7 +35,6 @@ export default function InboundLinks({postId}) {
     useEffect(() => {
         fetchLinks()
     }, [blocks])
-
 
     const fetchLinks = async () => {
         if (!blocks) return;
@@ -89,7 +89,7 @@ export default function InboundLinks({postId}) {
         setTimeout(() => {
             const blockElement = document.querySelector(`[data-block="${blockId}"]`);
             if (blockElement) {
-                blockElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                blockElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 dispatch('core/block-editor').flashBlock(blockId)
             }
         }, 100);
@@ -161,6 +161,29 @@ export default function InboundLinks({postId}) {
     return(
         <div>
             <h3>{__('Outbound Links', 'simple-link-checker')}</h3>
+
+
+            {blocks.map((block) => (
+                <div key={block.clientId} style={{ marginBottom: '1rem' }}>
+                    <Card>
+                        <CardHeader>
+                            <h2>{__('Block:', 'simple-link-checker')} <b>{block.name}</b></h2>
+                        </CardHeader>
+
+                        <CardBody>
+                            <Flex
+                                justify={'start'}
+                                gap={2}
+                            >
+                                {links.filter(link => link.blockId == block.clientId).map((link) => (
+                                    <OutboundLink link={link}></OutboundLink>
+                                ))}
+                            </Flex>
+                        </CardBody>
+                    </Card>
+                </div>
+            ))}
+
             {links.map((link) => (
                 <div key={link.id} style={{marginBottom: '1rem'}}>
 
