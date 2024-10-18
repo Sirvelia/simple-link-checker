@@ -13,7 +13,7 @@
                                     {!! esc_html__( 'Block' ) !!}
                                 </span>
 
-                                <button @click="scrollToBlock(block)" class="slc-rounded slc-bg-white slc-px-2 slc-py-1 slc-text-xs slc-font-semibold slc-text-gray-900 slc-shadow-sm slc-ring-1 slc-ring-inset slc-ring-gray-300 hover:slc-bg-gray-50">{!! esc_html__('Scroll to Block', 'simple-link-checker') !!}</button>
+                                <button @click="scrollToBlock(block)" class="slc-border-0 slc-cursor-pointer slc-rounded slc-bg-white slc-px-2 slc-py-1 slc-text-xs slc-font-semibold slc-text-gray-900 slc-shadow-sm slc-ring-1 slc-ring-inset slc-ring-gray-300 hover:slc-bg-gray-50">{!! esc_html__('Scroll to Block', 'simple-link-checker') !!}</button>
                             </div>
 
                             <div class="slc-relative slc-mb-2">

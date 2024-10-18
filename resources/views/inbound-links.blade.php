@@ -5,7 +5,7 @@
         <div>
             <template x-for="link in links" :key="link.ID">
                 <template x-if="link.ID">
-                    <a :href=`/wp-admin/post.php?post=${link.ID}&action=edit` target="_blank" rel="noopener noreferrer" x-html="`${link.post_title} (${link.post_type})`"></a>
+                    <a :href=`${window.simpleLinkChecker.adminUrl}post.php?post=${link.ID}&action=edit` target="_blank" rel="noopener noreferrer" x-html="`${link.post_title} (${link.post_type})`"></a>
                 </template>
             </template>
         </div>

@@ -1,7 +1,15 @@
 <div class="slc-overflow-hidden slc-rounded-lg slc-bg-white slc-shadow">
     <div class="slc-px-2 slc-py-3 sm:slc-p-2">
-        <div class="slc-mb-2">
+        <div class="slc-mb-2 slc-flex slc-gap-2">
             <a class="slc-no-underline slc-rounded slc-bg-indigo-50 slc-px-2 slc-py-1 slc-text-xs slc-font-semibold slc-text-indigo-600 slc-shadow-sm hover:slc-bg-indigo-100" :href="link.href" target="_blank">{!! esc_html__('Open Link', 'simple-link-checker') !!}</a>
+
+            <template x-if="!link.status">
+                <button class="slc-border-0 slc-cursor-pointer slc-no-underline slc-rounded slc-bg-teal-50 slc-px-2 slc-py-1 slc-text-xs slc-font-semibold slc-text-teal-600 slc-shadow-sm hover:slc-bg-teal-100" @click="checkLinkStatus()" :disabled="link.loading == true">{!! esc_html__('Check Status', 'simple-link-checker') !!}</button>
+            </template>
+
+            <template x-if="link.status">
+                <span class="slc-border-0 slc-no-underline slc-rounded slc-bg-gray-50 slc-px-2 slc-py-1 slc-text-xs slc-font-semibold slc-text-gray-600 slc-shadow-sm" x-html="link.status"></span>
+            </template>
         </div>
 
         <div class="slc-mb-2">

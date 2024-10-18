@@ -7,6 +7,7 @@ declare global {
         simpleLinkChecker: {
             apiUrl: string,
             postID: number,
+            adminUrl: string,
         };
     }
 }

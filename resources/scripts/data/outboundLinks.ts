@@ -1,5 +1,7 @@
 import Alpine from 'alpinejs';
 
+import apiFetch from '@wordpress/api-fetch';
+
 // Extend the global Window interface to include WordPress-specific properties
 declare global {
     interface Window {
@@ -31,6 +33,7 @@ interface Link {
     targetBlank: boolean;
     noFollow: boolean;
     isImageLink: boolean;
+    status: number;
 }
 
 // Destructure WordPress data and blocks functions
@@ -215,6 +218,23 @@ export default function outboundLinks(): void {
 
                 return doc.body.innerHTML;
             },
+
+            async checkLinkStatus(): Promise<void> {
+
+                this.$data.link.loading = true
+
+                const link = this.$data.link
+
+                const response = await apiFetch({
+                    url: `${window.simpleLinkChecker.apiUrl}simple-link-checker/v1/check-link/?url=${link.href}`,
+                    method: 'GET',
+                });
+
+                this.$data.link.loading = false
+                this.$data.link.status = response.status
+
+            }
+
         }));
     });
 }
