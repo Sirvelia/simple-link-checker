@@ -124,11 +124,8 @@ export default function outboundLinks(): void {
                 const block = getBlock(blockId);
 
                 if (block) {
-                    console.log(getBlockAttributes(blockId))
                     const blockContent = getBlockAttributes(blockId). content
-                    console.log(blockContent)
                     const updatedContent = this.updateLinkInContent(blockContent);
-                    console.log(updatedContent)
 
                     updateBlockAttributes(blockId, { content: updatedContent });
                 }
