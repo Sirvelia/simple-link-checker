@@ -37,6 +37,7 @@ class Enqueues
 
 		wp_localize_script($this->plugin_name, 'simpleLinkChecker', array(
 			'apiUrl' => get_rest_url(),
+			'postID' => get_the_ID(),
 		));
 
 		wp_enqueue_script($this->plugin_name);

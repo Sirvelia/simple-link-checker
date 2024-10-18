@@ -34,10 +34,7 @@ class MetaBoxes
 
 	public function render()
 	{
-		// global $post;
-		// $post_id = esc_attr($post->ID);
 		echo $this->blade->template('outbound-links');
-
-		// echo '<div id="simple-link-checker-app" data-post-id="'.$post_id.'"></div>';
+		echo $this->blade->template('inbound-links');
 	}
 }

@@ -9,8 +9,8 @@
                     <div class="slc-overflow-hidden slc-rounded-lg slc-bg-gray-50 slc-border slc-border-gray-200 slc-border-solid slc-mb-4 slc-shadow">
                         <div class="slc-px-2 slc-py-3 sm:slc-p-3">
                             <div class="slc-flex slc-justify-between slc-items-center">
-                                <span class="lg:slc-text-lg">
-                                    {!! esc_html__( 'Block' ) !!}: <b x-text="block.name"></b>
+                                <span class="lg:slc-text-md">
+                                    {!! esc_html__( 'Block' ) !!}
                                 </span>
 
                                 <button @click="scrollToBlock(block)" class="slc-rounded slc-bg-white slc-px-2 slc-py-1 slc-text-xs slc-font-semibold slc-text-gray-900 slc-shadow-sm slc-ring-1 slc-ring-inset slc-ring-gray-300 hover:slc-bg-gray-50">{!! esc_html__('Scroll to Block', 'simple-link-checker') !!}</button>
@@ -28,7 +28,7 @@
 
                             <div class="slc-grid slc-grid-cols-1 lg:slc-grid-cols-2 slc-gap-4">
                                 <template x-for="link in block.links" :key="link.id">
-                                    @include('parts/link.blade.php')
+                                    @include('parts/outbound-link.blade.php')
                                 </template>
                             </div>  
                         </div>

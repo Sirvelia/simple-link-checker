@@ -31,7 +31,6 @@ interface Link {
     targetBlank: boolean;
     noFollow: boolean;
     isImageLink: boolean;
-    loading: boolean;
 }
 
 // Destructure WordPress data and blocks functions
@@ -58,13 +57,17 @@ export default function outboundLinks(): void {
 
                 // Map each block to our Block interface and filter out null values
                 this.blocks = blocks
-                    .map(block => this.createBlockData(getBlock(block.clientId)))
-                    .filter((block): block is Block => block !== null);
+                    .map((block: Block) => this.createBlockData(getBlock(block.clientId)))
+                    .filter((block: Block): block is Block => block !== null);
             },
 
             // Create a Block object from WordPress block data
             createBlockData(block: any): Block | null {
                 if (!block) return null;
+
+                if (block.name !== 'core/paragraph') {
+                    return null;
+                }
 
                 const content = getBlockContent(block);
                 const links = this.getBlockLinks(block, content);
@@ -96,7 +99,6 @@ export default function outboundLinks(): void {
                     targetBlank: link.target === '_blank',
                     noFollow: link.rel ? link.rel.includes('nofollow') : false,
                     isImageLink: link.querySelector('img') !== null,
-                    loading: false,
                 };
             },
 
@@ -119,8 +121,11 @@ export default function outboundLinks(): void {
                 const block = getBlock(blockId);
 
                 if (block) {
+                    console.log(getBlockAttributes(blockId))
                     const blockContent = getBlockAttributes(blockId). content
+                    console.log(blockContent)
                     const updatedContent = this.updateLinkInContent(blockContent);
+                    console.log(updatedContent)
 
                     updateBlockAttributes(blockId, { content: updatedContent });
                 }
@@ -134,7 +139,7 @@ export default function outboundLinks(): void {
                 const linkToUpdateIndex = parseInt(this.$data.link.id.split('/')[1]);
 
                 // Update the href attribute of the specific link
-                links[linkToUpdateIndex]?.setAttribute('href', this.$data.editedLink);
+                links[linkToUpdateIndex]?.setAttribute('href', this.$data.link.href);
 
                 return doc.body.innerHTML;
             },
