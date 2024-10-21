@@ -23,6 +23,10 @@ Yes, this plugin is actually designed to work best with Gutenberg editor.
 
 == Changelog ==
 
+= 2.0.0 =
+* Change of UI
+* Move from React to Alpine.js
+
 = 1.0.2 =
 * Nofollow detection fixes
 
