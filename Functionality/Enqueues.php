@@ -18,24 +18,48 @@ class Enqueues
 	public function admin_enqueues()
 	{
 
-		$asset_file = include SIMPLELINKCHECKER_PATH . 'build/index.asset.php';
+		/**
+		 * Scripts
+		 */
 
-		foreach ($asset_file['dependencies'] as $style) {
-			wp_enqueue_style($style);
+		$scripts_asset = include SIMPLELINKCHECKER_PATH . 'build/scripts/app.asset.php';
+
+		foreach ($scripts_asset['dependencies'] as $script) {
+			wp_enqueue_script($script);
 		}
 
 		wp_register_script(
 			$this->plugin_name,
-			SIMPLELINKCHECKER_URL . 'build/index.js',
-			array('wp-element', 'wp-api-fetch', 'wp-components', 'wp-blocks'),
-			$asset_file['version']
+			SIMPLELINKCHECKER_URL . 'build/scripts/app.js',
+			array('wp-api-fetch', 'wp-blocks'),
+			$scripts_asset['version']
 		);
 
 		wp_localize_script($this->plugin_name, 'simpleLinkChecker', array(
 			'apiUrl' => get_rest_url(),
+			'postID' => get_the_ID(),
+			'adminUrl' => get_admin_url(),
 		));
 
 		wp_enqueue_script($this->plugin_name);
+
+		/**
+		 * Styles
+		 */
+
+		$styles_asset = include SIMPLELINKCHECKER_PATH . 'build/styles/app.asset.php';
+
+		foreach ($styles_asset['dependencies'] as $style) {
+			wp_enqueue_style($style);
+		}
+
+		wp_enqueue_style(
+			$this->plugin_name,
+			SIMPLELINKCHECKER_URL . 'build/styles/app.css',
+			array(),
+			$styles_asset['version']
+		);
+
 
 	}
 }
