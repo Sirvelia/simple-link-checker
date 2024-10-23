@@ -40,6 +40,16 @@ interface Link {
 const { select, subscribe, dispatch } = window.wp.data;
 const { getBlockContent } = window.wp.blocks;
 
+const COMPATIBLE_BLOCKS = [
+    'core/paragraph',
+    'core/heading',
+    'core/list',
+    'core/quote',
+    'core/buttons',
+    'core/columns',
+    'core/group'
+];
+
 // Main function to set up outbound links functionality
 export default function outboundLinks(): void {
     document.addEventListener('alpine:init', () => {
@@ -68,7 +78,7 @@ export default function outboundLinks(): void {
             createBlockData(block: any): Block | null {
                 if (!block) return null;
 
-                if (block.name !== 'core/paragraph') {
+                if (!COMPATIBLE_BLOCKS.includes(block.name)) {
                     return null;
                 }
 
