@@ -3,7 +3,7 @@ Contributors: amadeuarderiu,sirvelia,wetopi
 Requires at least: 6.5
 Tested up to: 6.6
 Requires PHP: 8.0
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPL-3.0+
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -23,7 +23,7 @@ Yes, this plugin is actually designed to work best with Gutenberg editor.
 
 == Changelog ==
 
-= 2.1.1 =
+= 2.1.2 =
 * Improved design for Inbound Links
 
 = 2.1.0 =

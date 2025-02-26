@@ -4,7 +4,7 @@
  * @wordpress-plugin
  * Plugin Name:       Simple Link Checker
  * Description:       Manage inbound and outbound post links.
- * Version:           2.1.1
+ * Version:           2.1.2
  * Author:            Sirvelia
  * Author URI:        https://sirvelia.com/
  * License:           GPL-3.0+
@@ -20,7 +20,7 @@ if (!defined('WPINC')) {
 
 // PLUGIN CONSTANTS
 define('SIMPLELINKCHECKER_NAME', 'simple-link-checker');
-define('SIMPLELINKCHECKER_VERSION', '2.1.1');
+define('SIMPLELINKCHECKER_VERSION', '2.1.2');
 define('SIMPLELINKCHECKER_PATH', plugin_dir_path(__FILE__));
 define('SIMPLELINKCHECKER_BASENAME', plugin_basename(__FILE__));
 define('SIMPLELINKCHECKER_URL', plugin_dir_url(__FILE__));
