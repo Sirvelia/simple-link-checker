@@ -3,7 +3,7 @@ Contributors: amadeuarderiu,sirvelia,wetopi
 Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPL-3.0+
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -22,6 +22,9 @@ After activating the plugin, when editing a post, there will be a new metabox. T
 Yes, this plugin is actually designed to work best with Gutenberg editor.
 
 == Changelog ==
+
+= 2.1.3 =
+* Hide Inbboud or Outbound titles if no links for each
 
 = 2.1.2 =
 * Improved design for Inbound Links
