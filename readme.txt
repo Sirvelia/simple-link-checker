@@ -1,7 +1,7 @@
 === Simple Link Checker ===
 Contributors: amadeuarderiu,sirvelia,wetopi
 Requires at least: 6.5
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 8.0
 Stable tag: 2.1.3
 License: GPL-3.0+
